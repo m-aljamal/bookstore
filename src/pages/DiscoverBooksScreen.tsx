@@ -5,15 +5,24 @@ import { Spinner } from "components/Soinner";
 import { client } from "lib/Client";
 import { Book } from "lib/types";
 import SearchIcon from "components/SearchIcon";
-
+import  useAsync  from "lib/useAsync";
 const DiscoverBooksScreen = () => {
   const [queried, setQueried] = React.useState(false);
   const [query, setQuery] = React.useState("");
-  const [status, setStatus] = React.useState("idle");
+  // const [status, setStatus] = React.useState("idle");
   const [books, setBooks] = React.useState<Book[] | []>([]);
 
-  const isLoading = status === "loading";
-  const isSuccess = status === "success";
+  const {data,run, error, status} = useAsync()
+
+
+
+  console.log({ data, error, status });
+  
+  // const [error, setError] = React.useState<Error | null>(null);
+
+  // const isLoading = status === "loading";
+  // const isSuccess = status === "success";
+  // const isError = status === "error";
 
   const handleSubmit = (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,16 +32,23 @@ const DiscoverBooksScreen = () => {
 
   React.useEffect(() => {
     if (!queried) return;
-    setStatus("loading");
-    client({
-      endPoint: `http://localhost:3001/books?query=${encodeURIComponent(
-        query
-      )}`,
-    }).then((resPonseData) => {
-      setBooks(resPonseData);
-      setStatus("success");
-    });
-  }, [queried, query]);
+    run(client(`http://localhost:3001/books?query=${encodeURIComponent(query)}`))
+    
+    // setStatus("loading");
+
+    // client(
+    //   `http://localhost:3001/books?query=${encodeURIComponent(query)}`
+    // ).then(
+    //   (resPonseData) => {
+    //     setBooks(resPonseData);
+    //     setStatus("success");
+    //   },
+    //   (errorData) => {
+    //     setStatus("error");
+    //     setError(errorData);
+    //   }
+    // );
+  }, [queried, query, run]);
 
   return (
     <Container className="max-w-4xl">
@@ -45,13 +61,19 @@ const DiscoverBooksScreen = () => {
             id="booksearch"
           />
 
-          <div className=" absolute right-5 top-[57%] ">
+          {/* <div className=" absolute right-5 top-[57%] ">
             {isLoading ? <Spinner /> : <SearchIcon />}
-          </div>
+          </div> */}
         </div>
       </form>
-      {isLoading && <div>Loading...</div>}
-      {isSuccess ? (
+      {/* {isError ? (
+        <div className="text-red-500 text-center mt-10">
+          <p>Error</p>
+          <pre>{error?.message}</pre>
+        </div>
+      ) : null} */}
+
+      {/* {isSuccess ? (
         books.length ? (
           <ul className=" mt-8 space-y-10">
             {books.map((book) => (
@@ -61,7 +83,7 @@ const DiscoverBooksScreen = () => {
         ) : (
           <p className="mt-8">No Books found</p>
         )
-      ) : null}
+      ) : null} */}
     </Container>
   );
 };

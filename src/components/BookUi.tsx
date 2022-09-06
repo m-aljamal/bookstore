@@ -6,8 +6,12 @@ const BookUi = ({
   book: Book;
 }) => {
   return (
-    <li className="flex space-x-5  border p-5 ">
-      <img src={coverImageUrl} alt={title} className=" w-40" />
+    <li className="flex flex-col md:flex-row  space-x-5  border p-5 ">
+      <img
+        src={coverImageUrl}
+        alt={title}
+        className=" md:w-40 w-full h-60  object-contain"
+      />
 
       <div>
         <div className="flex justify-between items-center">

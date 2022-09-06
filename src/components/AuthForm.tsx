@@ -11,7 +11,7 @@ const AuthForm = ({ onSubmit, submitButton }: AuthFormProps) => {
     e.preventDefault();
 
     onSubmit({
-      username: e.target.username.value,
+      email: e.target.email.value,
       password: e.target.password.value,
     });
   };
@@ -19,12 +19,12 @@ const AuthForm = ({ onSubmit, submitButton }: AuthFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="flex flex-col items-start space-y-2">
         <label htmlFor="email" className="">
-          Username
+          email
         </label>
         <input
           type="text"
-          name="username"
-          id="username"
+          name="email"
+          id="email"
           className="w-full bg-gray-100 p-3"
         />
       </div>

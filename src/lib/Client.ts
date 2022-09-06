@@ -1,14 +1,28 @@
 export interface ClientProps {
   endPoint: string;
-  customConfig?: object;
+  // customConfig?: object;
+  custom: {
+    token?: string;
+  };
 }
 
-const client = ({ customConfig = {}, endPoint }: ClientProps) => {
+const client = async (endpoint: string, { token }: { token?: string } = {}) => {
   const config = {
     method: "GET",
-    ...customConfig,
+    // ...customConfig
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
   };
-  return window.fetch(endPoint, config).then((response) => response.json());
+
+  const response = await window.fetch(endpoint, config);
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    return Promise.reject(data);
+  }
 };
 
 export { client };

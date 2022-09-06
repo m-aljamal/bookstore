@@ -5,16 +5,13 @@ import Button from "components/Button";
 import AuthForm from "components/AuthForm";
 import { FormData } from "lib/types";
 
-const UnAuthPage = () => {
+interface UnAuthPageProps {
+  login: (formData: FormData) => void;
+  register: (formData: FormData) => void;
+}
+const UnAuthPage = ({ login, register }: UnAuthPageProps) => {
   const [showModal, setShowModal] = React.useState("null");
 
-  const login = (formData: FormData) => {
-    console.log({ formData, login: "login" });
-  };
-
-  const register = (formData: FormData) => {
-    console.log({ formData, register: "register" });
-  };
   return (
     <div>
       <div className="flex flex-col justify-center items-center h-screen space-y-3">

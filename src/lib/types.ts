@@ -1,5 +1,5 @@
 export interface FormData {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -11,4 +11,10 @@ export interface Book {
   publisher: string;
   synopsis: string;
   title: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
 }
