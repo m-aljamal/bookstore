@@ -100,6 +100,10 @@ function useAsync<DataType>(initialState?: AsyncState<DataType>) {
   );
 
   return {
+    isError: status === "rejected",
+    isLoading: status === "pending",
+    isSuccess: status === "resolved",
+    isIdle: status === "idle",
     setData,
     setError,
     data,

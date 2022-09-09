@@ -10,7 +10,11 @@ async function getToken() {
 async function handleUserResponse({ token }: { token: string }) {
   window.localStorage.setItem(localStorageKey, token || "");
   let user = await currentUser(token);
-  return user;
+
+  
+  console.log("handle", user, token);
+  
+  return { ...user, token };
 }
 
 async function currentUser(token: string) {
@@ -23,6 +27,10 @@ async function login({ email, password }: FormData) {
     data: { email, password },
     endpoint: "login",
   }).then(handleUserResponse);
+}
+
+async function logout() {
+  window.localStorage.removeItem(localStorageKey);
 }
 
 const authUrl = "http://localhost:3001/auth";
@@ -52,4 +60,4 @@ async function client({
     });
 }
 
-export { login, getToken };
+export { login, getToken, logout };
